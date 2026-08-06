@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import type { Review } from "@/data/site";
+import { Stars } from "@/components/ui/Icon";
 
 const ACCENT = {
   salsa: "bg-salsa text-cream",
@@ -29,8 +30,12 @@ export default function ReviewCard({
       whileHover={{ rotate: 0, scale: 1.04, y: -6 }}
       className={`sticker flex break-inside-avoid flex-col rounded-3xl p-6 ${ACCENT[review.accent]}`}
     >
-      <div className="mb-3 text-xl tracking-widest" aria-label={`${review.stars} out of 5 stars`}>
-        {"★".repeat(review.stars)}
+      <div
+        className="mb-3"
+        aria-label={`${review.stars} out of 5 stars`}
+        role="img"
+      >
+        <Stars count={review.stars} className="h-5 w-5" />
       </div>
       <blockquote className="flex-1 font-display text-xl uppercase leading-tight sm:text-2xl">
         &ldquo;{review.quote}&rdquo;

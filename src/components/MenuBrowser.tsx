@@ -1,10 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { menu } from "@/data/menu";
-import { emojiFor } from "@/data/emoji";
-import { Chili } from "@/components/ui/DishCard";
+import { imageFor } from "@/data/images";
+import Icon, { Heat } from "@/components/ui/Icon";
 import OrderButton from "@/components/ui/OrderButton";
 
 const ACCENT_BG = {
@@ -19,9 +20,9 @@ type Filter = "all" | "popular" | "vegan" | "spicy";
 
 const FILTERS: { id: Filter; label: string }[] = [
   { id: "all", label: "Everything" },
-  { id: "popular", label: "⭐ Popular" },
-  { id: "vegan", label: "🌱 Vegan" },
-  { id: "spicy", label: "🌶️ Spicy" },
+  { id: "popular", label: "Popular" },
+  { id: "vegan", label: "Vegan" },
+  { id: "spicy", label: "Spicy" },
 ];
 
 export default function MenuBrowser() {
@@ -76,12 +77,16 @@ export default function MenuBrowser() {
           <div className="flex flex-1 items-center gap-3">
             <label className="relative flex-1">
               <span className="sr-only">Search the menu</span>
+              <Icon
+                name="search"
+                className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-ink/40"
+              />
               <input
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search tacos, drinks, anything…"
-                className="w-full rounded-full border-3 border-ink bg-cream px-5 py-2.5 font-semibold placeholder:text-ink/40 focus:outline-none"
+                className="w-full rounded-full border-3 border-ink bg-cream py-2.5 pl-11 pr-5 font-semibold placeholder:text-ink/40 focus:outline-none"
               />
             </label>
             <span className="hidden shrink-0 font-display text-sm uppercase text-ink/50 sm:block">
@@ -97,9 +102,10 @@ export default function MenuBrowser() {
           <a
             key={c.id}
             href={`#${c.id}`}
-            className={`sticker-sm rounded-full px-4 py-2 font-display text-sm uppercase transition-transform hover:-translate-y-1 ${ACCENT_BG[c.accent]}`}
+            className={`sticker-sm flex items-center gap-2 rounded-full px-4 py-2 font-display text-sm uppercase transition-transform hover:-translate-y-1 ${ACCENT_BG[c.accent]}`}
           >
-            {c.emoji} {c.name}
+            <Icon name={c.icon} className="h-4 w-4" />
+            {c.name}
           </a>
         ))}
       </nav>
@@ -114,7 +120,7 @@ export default function MenuBrowser() {
             exit={{ opacity: 0 }}
             className="sticker mx-auto max-w-md rounded-3xl bg-mango p-8 text-center"
           >
-            <p className="text-6xl">🤷</p>
+            <Icon name="search" className="mx-auto h-14 w-14" />
             <p className="mt-3 font-display text-3xl uppercase leading-none">
               Nada found
             </p>
@@ -139,8 +145,9 @@ export default function MenuBrowser() {
               >
                 <div>
                   <p className="font-fun text-lg opacity-80">{cat.spanish}</p>
-                  <h2 className="font-display text-4xl uppercase leading-none sm:text-5xl">
-                    {cat.emoji} {cat.name}
+                  <h2 className="flex items-center gap-3 font-display text-4xl uppercase leading-none sm:text-5xl">
+                    <Icon name={cat.icon} className="h-9 w-9 shrink-0" />
+                    {cat.name}
                   </h2>
                   <p className="mt-1 max-w-xl text-sm opacity-90">{cat.blurb}</p>
                 </div>
@@ -150,53 +157,68 @@ export default function MenuBrowser() {
               </div>
 
               <ul className="grid gap-3 sm:grid-cols-2">
-                {cat.items.map((item, i) => (
-                  <motion.li
-                    key={item.id}
-                    layout
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: Math.min(i * 0.03, 0.3) }}
-                    className="group flex items-center gap-4 rounded-2xl border-3 border-ink bg-cream px-4 py-3 transition-all duration-150 hover:-translate-y-1 hover:shadow-[5px_5px_0_var(--color-ink)]"
-                  >
-                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border-3 border-ink bg-cream text-2xl transition-transform group-hover:scale-110 group-hover:-rotate-12">
-                      {emojiFor(item.id)}
-                    </span>
+                {cat.items.map((item, i) => {
+                  const src = imageFor(item.id);
+                  return (
+                    <motion.li
+                      key={item.id}
+                      layout
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: Math.min(i * 0.03, 0.3) }}
+                      className="group flex items-center gap-4 rounded-2xl border-3 border-ink bg-cream p-2 pr-4 transition-all duration-150 hover:-translate-y-1 hover:shadow-[5px_5px_0_var(--color-ink)]"
+                    >
+                      <span
+                        className={`relative grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-xl border-3 border-ink ${ACCENT_BG[cat.accent]}`}
+                      >
+                        {src ? (
+                          <Image
+                            src={src}
+                            alt={item.name}
+                            fill
+                            sizes="64px"
+                            className="object-cover transition-transform duration-300 group-hover:scale-115"
+                          />
+                        ) : (
+                          <Icon name={cat.icon} className="h-7 w-7" />
+                        )}
+                      </span>
 
-                    <div className="min-w-0 flex-1">
-                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                        <h3 className="font-display text-xl uppercase leading-none">
-                          {item.name}
-                        </h3>
-                        {item.popular && (
-                          <span className="rounded-full bg-mango px-2 py-0.5 text-[10px] font-bold uppercase">
-                            Popular
-                          </span>
+                      <div className="min-w-0 flex-1 py-1">
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                          <h3 className="font-display text-xl uppercase leading-none">
+                            {item.name}
+                          </h3>
+                          {item.popular && (
+                            <span className="rounded-full bg-mango px-2 py-0.5 text-[10px] font-bold uppercase">
+                              Popular
+                            </span>
+                          )}
+                          {item.vegan && (
+                            <span className="rounded-full bg-lime px-2 py-0.5 text-[10px] font-bold uppercase">
+                              Vegan
+                            </span>
+                          )}
+                          <Heat level={item.spicy ?? 0} />
+                        </div>
+                        {item.description && (
+                          <p className="mt-1 text-sm text-ink/65">
+                            {item.description}
+                          </p>
                         )}
-                        {item.vegan && (
-                          <span className="rounded-full bg-lime px-2 py-0.5 text-[10px] font-bold uppercase">
-                            Vegan
-                          </span>
-                        )}
-                        <Chili level={item.spicy ?? 0} />
                       </div>
-                      {item.description && (
-                        <p className="mt-1 text-sm text-ink/65">
-                          {item.description}
-                        </p>
-                      )}
-                    </div>
 
-                    <span className="shrink-0 self-start font-display text-xl tabular-nums">
-                      ${item.price.toFixed(2)}
-                      {item.estimated && (
-                        <span className="ml-1 align-super text-[9px] uppercase text-ink/35">
-                          tbc
-                        </span>
-                      )}
-                    </span>
-                  </motion.li>
-                ))}
+                      <span className="shrink-0 self-start pt-1 font-display text-xl tabular-nums">
+                        ${item.price.toFixed(2)}
+                        {item.estimated && (
+                          <span className="ml-1 align-super text-[9px] uppercase text-ink/35">
+                            tbc
+                          </span>
+                        )}
+                      </span>
+                    </motion.li>
+                  );
+                })}
               </ul>
             </motion.section>
           ))
@@ -209,7 +231,7 @@ export default function MenuBrowser() {
           Let&apos;s fix that
         </p>
         <OrderButton size="lg" variant="salsa">
-          Order Now 🌮
+          Order Now
         </OrderButton>
       </div>
     </div>

@@ -1,13 +1,20 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
+import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
 import CateringForm from "@/components/CateringForm";
 import { site } from "@/data/site";
+import { featureImages } from "@/data/images";
+import Icon from "@/components/ui/Icon";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Catering",
-  description: `Taco bars, birria feasts and vegan spreads for parties and offices around ${site.city}.`,
-};
+  description:
+    "Taco bars, birria feasts and vegan spreads for parties, offices and events around Katy, TX. Get a same-day quote from Dos Tacos.",
+  path: "/catering",
+  image: "/img/real/nachos.jpg",
+});
 
 /** PLACEHOLDER pricing — confirm real packages and per-head rates. */
 const PACKAGES = [
@@ -15,7 +22,7 @@ const PACKAGES = [
     name: "Taco Bar",
     price: "$14",
     unit: "per person",
-    emoji: "🌮",
+    image: featureImages.tacos,
     bg: "bg-salsa text-cream",
     blurb: "Build-your-own. Three meats, all the toppings, salsas, rice & beans.",
     includes: ["3 proteins", "Corn + flour tortillas", "4 salsas", "Rice & charro beans"],
@@ -24,7 +31,7 @@ const PACKAGES = [
     name: "Birria Feast",
     price: "$19",
     unit: "per person",
-    emoji: "🍲",
+    image: featureImages.spread,
     bg: "bg-mango text-ink",
     blurb: "The showstopper. Birria, consomé for dipping, quesabirria on request.",
     includes: ["Birria + consomé", "Quesabirria station", "Elote", "Horchata dispenser"],
@@ -34,7 +41,7 @@ const PACKAGES = [
     name: "Vegan Spread",
     price: "$13",
     unit: "per person",
-    emoji: "🌱",
+    image: null,
     bg: "bg-lime text-ink",
     blurb: "Fully plant-based and genuinely good. Nobody will ask where the meat is.",
     includes: ["Vegan pastor", "Egg & potato", "Guacamole", "Grilled veg"],
@@ -53,7 +60,7 @@ export default function CateringPage() {
       <PageHero
         kicker="Fiestas, oficinas, todo"
         title="We'll Bring the Taquería"
-        blurb={`Backyard parties, office lunches, quinceañeras, game day. If there are people, we can feed them.`}
+        blurb={`Backyard parties, office lunches, quinceañeras, game day. Anywhere around ${site.city}, if there are people, we can feed them.`}
         accent="guava"
       />
 
@@ -74,12 +81,26 @@ export default function CateringPage() {
             >
               {p.featured && (
                 <span className="sticker-sm absolute -top-4 left-1/2 -translate-x-1/2 rotate-[-4deg] rounded-full bg-cream px-4 py-1 font-display text-xs uppercase whitespace-nowrap text-ink">
-                  ⭐ Most booked
+                  Most booked
                 </span>
               )}
 
-              <p className="text-6xl">{p.emoji}</p>
-              <h3 className="mt-2 font-display text-4xl uppercase leading-none">
+              <span className="relative mb-4 block h-40 overflow-hidden rounded-2xl border-3 border-ink bg-cream/25">
+                {p.image ? (
+                  <Image
+                    src={p.image}
+                    alt={`${p.name} catering from Dos Tacos`}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                    className="object-cover"
+                  />
+                ) : (
+                  <span className="grid h-full place-items-center">
+                    <Icon name="leaf" className="h-16 w-16 opacity-70" />
+                  </span>
+                )}
+              </span>
+              <h3 className="font-display text-4xl uppercase leading-none">
                 {p.name}
               </h3>
               <p className="mt-2 text-sm opacity-90">{p.blurb}</p>

@@ -136,7 +136,7 @@ export default function HeroBuild() {
           className="relative z-10 mt-6 flex flex-wrap items-center justify-center gap-3 px-4"
         >
           <OrderButton size="lg" variant="cream">
-            Order Now 🌮
+            Order Now
           </OrderButton>
           <a
             href="/menu"
@@ -167,7 +167,7 @@ export default function HeroBuild() {
         </div>
 
         <p className="absolute right-4 top-4 z-10 hidden text-right font-display text-sm uppercase leading-tight text-ink/50 sm:block">
-          {site.rating}★ · {site.reviewCount.toLocaleString()} reviews
+          {site.rating} stars · {site.reviewCount.toLocaleString()} reviews
           <br />
           {site.city}
         </p>

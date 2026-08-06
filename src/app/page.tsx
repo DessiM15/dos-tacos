@@ -6,12 +6,14 @@ import DishCard from "@/components/ui/DishCard";
 import ReviewCard from "@/components/ui/ReviewCard";
 import Marquee from "@/components/ui/Marquee";
 import OrderButton from "@/components/ui/OrderButton";
+import { Stars } from "@/components/ui/Icon";
 import { menu, popularItems, veganItems, tacoNames } from "@/data/menu";
-import { emojiFor } from "@/data/emoji";
+import { galleryImages, storeFront } from "@/data/images";
+import Icon from "@/components/ui/Icon";
 import { site, reviews } from "@/data/site";
 
 const STATS = [
-  { value: `${site.rating}★`, label: "Google rating", bg: "bg-mango" },
+  { value: `${site.rating}`, label: "Google rating", bg: "bg-mango", star: true },
   { value: `${(site.reviewCount / 1000).toFixed(1)}K`, label: "Reviews", bg: "bg-lime" },
   { value: site.priceRange, label: "Per person", bg: "bg-turquoise" },
   { value: "8 AM", label: "Tacos start", bg: "bg-guava" },
@@ -33,8 +35,9 @@ export default function Home() {
               key={s.label}
               className={`${s.bg} sticker-sm rounded-2xl px-4 py-3 text-center text-ink`}
             >
-              <p className="font-display text-3xl leading-none sm:text-4xl">
+              <p className="flex items-center justify-center gap-1 font-display text-3xl leading-none sm:text-4xl">
                 {s.value}
+                {"star" in s && s.star && <Stars count={1} className="h-6 w-6" />}
               </p>
               <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.18em]">
                 {s.label}
@@ -52,7 +55,7 @@ export default function Home() {
             <>
               The Greatest
               <br />
-              <span className="text-salsa">Hits</span> 🌮
+              <span className="text-salsa">Hits</span>
             </>
           }
           blurb="The stuff that got us 1,020 five-star reviews. Start here, thank us later."
@@ -64,7 +67,7 @@ export default function Home() {
               key={item.id}
               item={item}
               accent={item.category.accent}
-              emoji={emojiFor(item.id)}
+              icon={item.category.icon}
               index={i}
             />
           ))}
@@ -99,7 +102,7 @@ export default function Home() {
                 <>
                   The vegan
                   <br />
-                  menu <span className="text-salsa">slaps</span> 🌱
+                  menu <span className="text-salsa">slaps</span>
                 </>
               }
               blurb={veganCategory.blurb}
@@ -121,17 +124,29 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            {veganCategory.items.map((item, i) => (
-              <DishCard
+          <ul className="grid gap-3">
+            {veganCategory.items.map((item) => (
+              <li
                 key={item.id}
-                item={item}
-                accent="lime"
-                emoji={emojiFor(item.id)}
-                index={i}
-              />
+                className="sticker-sm flex items-center gap-3 rounded-2xl bg-cream px-4 py-3"
+              >
+                <Icon name="leaf" className="h-6 w-6 shrink-0 text-lime" />
+                <span className="flex-1">
+                  <span className="block font-display text-xl uppercase leading-none">
+                    {item.name}
+                  </span>
+                  {item.description && (
+                    <span className="block text-sm text-ink/65">
+                      {item.description}
+                    </span>
+                  )}
+                </span>
+                <span className="font-display text-xl tabular-nums">
+                  ${item.price.toFixed(2)}
+                </span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
@@ -158,10 +173,46 @@ export default function Home() {
         <div className="mt-12 text-center">
           <Link
             href="/reviews"
-            className="font-display text-2xl uppercase underline decoration-salsa decoration-4 underline-offset-8 transition-colors hover:text-salsa"
+            className="inline-flex min-h-12 items-center px-2 font-display text-2xl uppercase underline decoration-salsa decoration-4 underline-offset-8 transition-colors hover:text-salsa"
           >
             Read more reviews →
           </Link>
+        </div>
+      </section>
+
+      {/* ---------- gallery ---------- */}
+      <section className="relative overflow-hidden bg-ink py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <SectionHeading
+            light
+            accent="mango"
+            kicker="La comida"
+            title={
+              <>
+                Straight off
+                <br />
+                <span className="text-salsa">the tray</span>
+              </>
+            }
+            blurb="Real photos, real plates. No stock food here."
+          />
+          <ul className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {galleryImages.map((img, i) => (
+              <li
+                key={img.src}
+                className="group relative aspect-square overflow-hidden rounded-2xl border-4 border-cream"
+                style={{ rotate: i % 2 ? "1deg" : "-1deg" }}
+              >
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -170,7 +221,7 @@ export default function Home() {
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2">
           <div className="overflow-hidden rounded-3xl border-4 border-cream shadow-[8px_8px_0_var(--color-salsa)]">
             <Image
-              src="/img/store-front.jpg"
+              src={storeFront}
               alt={`The ${site.name} storefront in ${site.city}`}
               width={1200}
               height={800}
@@ -214,7 +265,7 @@ export default function Home() {
 
             <div className="mt-8 flex flex-wrap gap-3">
               <OrderButton size="lg" variant="mango">
-                Order Now 🌮
+                Order Now
               </OrderButton>
               <a
                 href={site.mapsUrl}

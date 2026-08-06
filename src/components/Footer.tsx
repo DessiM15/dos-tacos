@@ -39,7 +39,7 @@ export default function Footer() {
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <span className="sticker-sm rounded-full border-cream! bg-mango px-4 py-1.5 font-display text-lg text-ink shadow-[4px_4px_0_var(--color-cream)]">
-              {site.rating}★ · {site.reviewCount.toLocaleString()} reviews
+              {site.rating} · {site.reviewCount.toLocaleString()} reviews
             </span>
             <OrderButton size="sm" variant="lime">
               Order Now
@@ -56,7 +56,7 @@ export default function Footer() {
           </address>
           <a
             href={site.phoneHref}
-            className="mt-3 inline-block font-display text-xl text-cream underline decoration-salsa decoration-4 underline-offset-4 hover:text-mango"
+            className="mt-1 flex min-h-11 w-fit items-center font-display text-xl text-cream underline decoration-salsa decoration-4 underline-offset-4 hover:text-mango"
           >
             {site.phone}
           </a>
@@ -64,7 +64,7 @@ export default function Footer() {
             href={site.mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-3 block text-cream/70 underline underline-offset-4 hover:text-mango"
+            className="flex min-h-11 w-fit items-center text-cream/70 underline underline-offset-4 hover:text-mango"
           >
             Get directions →
           </a>
@@ -72,7 +72,7 @@ export default function Footer() {
 
         <div>
           <h3 className="font-display text-xl uppercase text-mango">Hours</h3>
-          <ul className="mt-3 space-y-1 text-sm text-cream/80">
+          <ul className="mt-3 space-y-1.5 text-sm text-cream/80">
             {site.hours.map((h) => (
               <li key={h.day} className="flex justify-between gap-4">
                 <span>{h.day.slice(0, 3)}</span>
@@ -93,7 +93,7 @@ export default function Footer() {
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-cream/70 underline underline-offset-4 hover:text-mango"
+                  className="inline-flex min-h-11 items-center px-1 text-cream/70 underline underline-offset-4 hover:text-mango"
                 >
                   {s.label}
                 </a>
@@ -110,13 +110,22 @@ export default function Footer() {
             questionable restraint.
           </p>
           <nav className="flex gap-4">
-            <Link href="/menu" className="hover:text-mango">
+            <Link
+              href="/menu"
+              className="inline-flex min-h-11 items-center px-1 hover:text-mango"
+            >
               Menu
             </Link>
-            <Link href="/catering" className="hover:text-mango">
+            <Link
+              href="/catering"
+              className="inline-flex min-h-11 items-center px-1 hover:text-mango"
+            >
               Catering
             </Link>
-            <Link href="/contact" className="hover:text-mango">
+            <Link
+              href="/contact"
+              className="inline-flex min-h-11 items-center px-1 hover:text-mango"
+            >
               Contact
             </Link>
           </nav>

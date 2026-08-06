@@ -1,20 +1,25 @@
 import type { Metadata } from "next";
+import { pageMetadata, breadcrumbJsonLd, JsonLd } from "@/lib/seo";
 import Image from "next/image";
 import type { Route } from "next";
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
 import OrderButton from "@/components/ui/OrderButton";
+import Icon, { type IconName } from "@/components/ui/Icon";
 import { site } from "@/data/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Visit",
-  description: `Find ${site.name} at ${site.address.full}. Hours, directions, and phone.`,
-};
+  description:
+    "Dos Tacos is at 10610 Gaston Rd Ste 130, Katy, TX 77494. Open daily from 8 AM. Hours, directions, phone and online ordering.",
+  path: "/contact",
+  image: "/img/store-front.jpg",
+});
 
 const CONTACT_CARDS = [
   {
-    emoji: "📍",
+    icon: "pin" as IconName,
     title: "Address",
     lines: [site.address.street, `${site.address.city}, ${site.address.state} ${site.address.zip}`],
     href: site.mapsUrl,
@@ -23,7 +28,7 @@ const CONTACT_CARDS = [
     external: true,
   },
   {
-    emoji: "📞",
+    icon: "phone" as IconName,
     title: "Phone",
     lines: [site.phone, "Call for pickup orders"],
     href: site.phoneHref,
@@ -32,7 +37,7 @@ const CONTACT_CARDS = [
     external: false,
   },
   {
-    emoji: "🌮",
+    icon: "scooter" as IconName,
     title: "Delivery",
     lines: ["Uber Eats & DoorDash", "Or skip the fees — order pickup"],
     href: "/menu" as Route,
@@ -46,6 +51,12 @@ const CONTACT_CARDS = [
 export default function ContactPage() {
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Visit", path: "/contact" },
+        ])}
+      />
       <PageHero
         kicker="Ven a vernos"
         title="Come Say Hola"
@@ -62,8 +73,8 @@ export default function ContactPage() {
               className={`sticker flex flex-col rounded-3xl p-7 ${c.bg}`}
               style={{ rotate: i === 1 ? "0deg" : i === 0 ? "-1.2deg" : "1.2deg" }}
             >
-              <p className="text-6xl">{c.emoji}</p>
-              <h2 className="mt-2 font-display text-3xl uppercase leading-none">
+              <Icon name={c.icon} className="h-14 w-14" strokeWidth={2} />
+              <h2 className="mt-3 font-display text-3xl uppercase leading-none">
                 {c.title}
               </h2>
               <div className="mt-3 flex-1 space-y-1">

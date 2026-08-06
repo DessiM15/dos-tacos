@@ -10,6 +10,7 @@ import {
 } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { site } from "@/data/site";
+import Icon, { type IconName } from "@/components/ui/Icon";
 
 type OrderContextValue = { open: () => void; close: () => void };
 
@@ -23,32 +24,40 @@ export function useOrder() {
 
 const OPTIONS = [
   {
+    label: "Order Online",
+    sub: "Direct with us — no delivery-app fees",
+    href: site.order.toast,
+    bg: "bg-lime",
+    icon: "bag" as IconName,
+    featured: true,
+  },
+  {
     label: "Uber Eats",
     sub: "Delivered to your door",
     href: site.order.uberEats,
-    bg: "bg-lime",
-    emoji: "🛵",
+    bg: "bg-mango",
+    icon: "scooter" as IconName,
+  },
+  {
+    label: "Grubhub",
+    sub: "Delivered to your door",
+    href: site.order.grubhub,
+    bg: "bg-salsa",
+    icon: "car" as IconName,
   },
   {
     label: "DoorDash",
     sub: "Delivered to your door",
     href: site.order.doorDash,
-    bg: "bg-salsa",
-    emoji: "🚗",
+    bg: "bg-guava",
+    icon: "car" as IconName,
   },
   {
-    label: "Call for Pickup",
-    sub: `Skip the fees — ${site.phone}`,
+    label: "Call Us",
+    sub: site.phone,
     href: site.phoneHref,
-    bg: "bg-mango",
-    emoji: "📞",
-  },
-  {
-    label: "Get Directions",
-    sub: site.address.street,
-    href: site.mapsUrl,
     bg: "bg-turquoise",
-    emoji: "📍",
+    icon: "phone" as IconName,
   },
 ] as const;
 
@@ -96,12 +105,12 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
               animate={{ scale: 1, y: 0, rotate: 0 }}
               exit={{ scale: 0.9, y: 20, opacity: 0 }}
               transition={{ type: "spring", stiffness: 320, damping: 24 }}
-              className="relative w-full max-w-lg rounded-3xl bg-cream sticker p-6 sm:p-8"
+              className="sticker relative max-h-[88svh] w-full max-w-lg overflow-y-auto rounded-3xl bg-cream p-6 sm:p-8"
             >
               <button
                 onClick={close}
                 aria-label="Close"
-                className="absolute -top-4 -right-4 grid h-11 w-11 place-items-center rounded-full bg-ink text-cream text-xl font-bold transition-transform hover:scale-110 hover:rotate-90"
+                className="sticky top-0 z-10 float-right -mt-1 grid h-11 w-11 place-items-center rounded-full bg-ink text-xl font-bold text-cream transition-transform hover:rotate-90 hover:scale-110"
               >
                 ×
               </button>
@@ -126,14 +135,20 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.06 * i + 0.1 }}
-                    className={`${o.bg} sticker-sm group flex items-center gap-4 rounded-2xl px-4 py-3 transition-transform hover:-translate-y-1 hover:translate-x-1`}
+                    className={`${o.bg} sticker-sm group relative flex items-center gap-4 rounded-2xl px-4 py-3 transition-transform hover:-translate-y-1 hover:translate-x-1`}
                   >
-                    <span className="text-3xl transition-transform group-hover:scale-125 group-hover:-rotate-12">
-                      {o.emoji}
-                    </span>
+                    <Icon
+                      name={o.icon}
+                      className="h-9 w-9 shrink-0 transition-transform group-hover:scale-125 group-hover:-rotate-12"
+                    />
                     <span className="flex-1">
-                      <span className="block font-display text-xl uppercase leading-none">
+                      <span className="flex flex-wrap items-center gap-2 font-display text-xl uppercase leading-none">
                         {o.label}
+                        {"featured" in o && o.featured && (
+                          <span className="rounded-full bg-ink px-2 py-0.5 text-[10px] tracking-wide text-cream">
+                            Best value
+                          </span>
+                        )}
                       </span>
                       <span className="block text-xs font-medium text-ink/70">
                         {o.sub}

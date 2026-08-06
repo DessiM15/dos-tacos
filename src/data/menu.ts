@@ -1,9 +1,15 @@
+import type { IconName } from "@/components/ui/Icon";
+
 /**
  * The menu.
  *
- * Item names and the prices that were visible on the Uber Eats listing are
- * real. Everything with `estimated: true` is a placeholder price I mocked up
- * because the live site was down — replace those numbers and delete the flag.
+ * Item names come from two sources: the restaurant's own photo filenames and
+ * the public Google Business listing. Prices marked `estimated: true` are
+ * placeholders (they render with a visible "TBC" tag) — replace those numbers
+ * and delete the flag.
+ *
+ * NEEDS-CONFIRM on names: "El Pur", "El Chorizo" and "El Bacon" are taken from
+ * the photo filenames; confirm the exact spelling used on the printed menu.
  */
 
 export type MenuItem = {
@@ -23,7 +29,7 @@ export type MenuCategory = {
   name: string;
   spanish: string;
   blurb: string;
-  emoji: string;
+  icon: IconName;
   accent: "salsa" | "lime" | "mango" | "turquoise" | "guava";
   items: MenuItem[];
 };
@@ -34,9 +40,36 @@ export const menu: MenuCategory[] = [
     name: "Street Tacos",
     spanish: "Tacos de Calle",
     blurb: "Corn tortillas, onion, cilantro, lime. The whole reason we're here.",
-    emoji: "🌮",
+    icon: "taco",
     accent: "salsa",
     items: [
+      {
+        id: "el-pur",
+        name: "El Pur",
+        price: 3.75,
+        estimated: true,
+        description: "Cheese-crisped and loaded. The one people photograph.",
+        popular: true,
+        spicy: 1,
+      },
+      {
+        id: "el-bacon",
+        name: "El Bacon",
+        price: 3.75,
+        estimated: true,
+        description: "Bacon, melted cheese, onion, cilantro.",
+        popular: true,
+        spicy: 1,
+      },
+      {
+        id: "el-chorizo",
+        name: "El Chorizo",
+        price: 3.75,
+        estimated: true,
+        description: "Mexican chorizo crisped on the flat top.",
+        popular: true,
+        spicy: 2,
+      },
       {
         id: "taco-al-pastor",
         name: "Tacos Al Pastor",
@@ -57,38 +90,75 @@ export const menu: MenuCategory[] = [
         spicy: 1,
       },
       {
-        id: "taco-carne-asada",
-        name: "Tacos Carne Asada",
-        price: 3.5,
+        id: "chicken-fajita-taco",
+        name: "Chicken Fajita Taco",
+        price: 3.75,
         estimated: true,
-        description: "Grilled steak, charred onion, salsa verde.",
-        popular: true,
+        description: "Grilled chicken, peppers and onions, queso on the side.",
         spicy: 1,
       },
       {
-        id: "taco-birria",
-        name: "Birria Tacos",
+        id: "chicken-fried-taco",
+        name: "Chicken Fried Taco",
+        price: 3.95,
+        estimated: true,
+        description: "Crispy fried chicken, slaw, salsa. A Texas idea.",
+        spicy: 1,
+      },
+      {
+        id: "fish-tacos",
+        name: "Fish Tacos",
         price: 4.25,
         estimated: true,
-        description: "Dipped, griddled, and served with consomé for dunking.",
+        description: "Fresh fish, cabbage, pico, crema.",
+        popular: true,
+        spicy: 1,
+      },
+    ],
+  },
+  {
+    id: "breakfast",
+    name: "Breakfast Tacos",
+    spanish: "Desayuno",
+    blurb: "Doors open at 8 AM. These are why.",
+    icon: "clock",
+    accent: "mango",
+    items: [
+      {
+        id: "egg-pastor",
+        name: "Egg & Pastor",
+        price: 3.75,
+        estimated: true,
+        description: "Scrambled egg, al pastor, cheese.",
         popular: true,
         spicy: 2,
       },
       {
-        id: "taco-pollo",
-        name: "Tacos de Pollo",
-        price: 3.25,
+        id: "egg-birria",
+        name: "Egg & Birria",
+        price: 4.25,
         estimated: true,
-        description: "Grilled adobo chicken, onion, cilantro.",
+        description: "Scrambled egg with birria and melted cheese.",
+        popular: true,
+        spicy: 2,
+      },
+      {
+        id: "egg-sausage",
+        name: "Egg & Sausage",
+        price: 3.5,
+        estimated: true,
+        description: "Scrambled egg, sausage, cheese. The classic.",
         spicy: 1,
       },
       {
-        id: "taco-lengua",
-        name: "Tacos de Lengua",
-        price: 3.75,
+        id: "chilaquiles",
+        name: "Chilaquiles",
+        price: 11.95,
         estimated: true,
-        description: "Tender beef tongue. Ask the regulars.",
-        spicy: 1,
+        description:
+          "Crispy tortillas in salsa with avocado, crema and pickled onion.",
+        popular: true,
+        spicy: 2,
       },
     ],
   },
@@ -97,27 +167,34 @@ export const menu: MenuCategory[] = [
     name: "House Specialties",
     spanish: "Especialidades",
     blurb: "The stuff people drive across Katy for.",
-    emoji: "🔥",
-    accent: "mango",
+    icon: "flame",
+    accent: "turquoise",
     items: [
       {
-        id: "quesadilla-birria",
-        name: "Quesadilla Birria",
+        id: "quesabirrias",
+        name: "Quesabirrias",
         price: 12.95,
         estimated: true,
-        description: "Cheese-crusted, birria-stuffed, consomé on the side.",
+        description: "Cheese-crusted, birria-stuffed, consomé for dunking.",
         popular: true,
         spicy: 2,
       },
       {
-        id: "volcanes-asada",
-        name: "Carne Asada Volcanes",
-        price: 11.95,
+        id: "bowl",
+        name: "Taco Bowl",
+        price: 12.5,
         estimated: true,
-        description:
-          "Crispy tostada base, melted cheese, carne asada piled high.",
+        description: "Everything in a bowl — rice, beans, protein, avocado.",
         popular: true,
         spicy: 1,
+      },
+      {
+        id: "fish-burrito",
+        name: "El Fried Fish Burrito",
+        price: 12.5,
+        estimated: true,
+        description: "Crispy fried fish, cabbage slaw, chipotle crema.",
+        spicy: 2,
       },
       {
         id: "crawfish-tostada",
@@ -126,14 +203,6 @@ export const menu: MenuCategory[] = [
         estimated: true,
         description: "Gulf crawfish, avocado, citrus, crunch. A Texas thing.",
         popular: true,
-        spicy: 2,
-      },
-      {
-        id: "fish-burrito",
-        name: "El Fried Fish Burrito",
-        price: 12.5,
-        estimated: true,
-        description: "Crispy fried fish, cabbage slaw, chipotle crema.",
         spicy: 2,
       },
       {
@@ -151,7 +220,7 @@ export const menu: MenuCategory[] = [
     spanish: "Vegano",
     blurb:
       "Not an afterthought. People come here specifically for these — check the reviews.",
-    emoji: "🌱",
+    icon: "leaf",
     accent: "lime",
     items: [
       {
@@ -198,8 +267,8 @@ export const menu: MenuCategory[] = [
     name: "Sides & Extras",
     spanish: "Para Compartir",
     blurb: "Order the queso. Everyone orders the queso.",
-    emoji: "🧀",
-    accent: "turquoise",
+    icon: "cheese",
+    accent: "guava",
     items: [
       {
         id: "queso-chips",
@@ -210,6 +279,31 @@ export const menu: MenuCategory[] = [
         popular: true,
       },
       {
+        id: "guac-chips",
+        name: "Guacamole & Chips",
+        price: 8.5,
+        estimated: true,
+        description: "Smashed to order.",
+        popular: true,
+      },
+      {
+        id: "nachos",
+        name: "Nachos",
+        price: 12.95,
+        estimated: true,
+        description: "Fully loaded — cheese, crema, guac, jalapeño, the works.",
+        popular: true,
+        spicy: 2,
+      },
+      {
+        id: "corn",
+        name: "Esquites",
+        price: 5.5,
+        estimated: true,
+        description: "Grilled corn off the cob with crema, cotija, chile, lime.",
+        spicy: 1,
+      },
+      {
         id: "salsa",
         name: "Salsa",
         price: 1.5,
@@ -217,27 +311,30 @@ export const menu: MenuCategory[] = [
         description: "Roja, verde, or the one that fights back.",
         spicy: 3,
       },
+    ],
+  },
+  {
+    id: "sweets",
+    name: "Sweets",
+    spanish: "Postres",
+    blurb: "Save room. Or don't, and come back tomorrow.",
+    icon: "gift",
+    accent: "guava",
+    items: [
       {
-        id: "guacamole",
-        name: "Guacamole & Chips",
-        price: 8.5,
+        id: "flan",
+        name: "Flan",
+        price: 6.5,
         estimated: true,
-        description: "Smashed to order.",
+        description: "Classic, wobbly, caramel on top.",
+        popular: true,
       },
       {
-        id: "rice-beans",
-        name: "Rice & Beans",
-        price: 4.5,
-        estimated: true,
-        description: "Charro beans and Mexican rice.",
-      },
-      {
-        id: "elote",
-        name: "Elote",
+        id: "arroz-con-leche",
+        name: "Arroz con Leche",
         price: 5.5,
         estimated: true,
-        description: "Grilled corn, crema, cotija, chile, lime.",
-        spicy: 1,
+        description: "Rice pudding with cinnamon. Served warm.",
       },
     ],
   },
@@ -246,8 +343,8 @@ export const menu: MenuCategory[] = [
     name: "Drinks",
     spanish: "Bebidas",
     blurb: "Ice cold, imported, and one of them has beer in it.",
-    emoji: "🥤",
-    accent: "guava",
+    icon: "drink",
+    accent: "salsa",
     items: [
       {
         id: "michelada",
@@ -266,14 +363,6 @@ export const menu: MenuCategory[] = [
         description: "On the rocks, salted, no mix nonsense.",
         popular: true,
       },
-      { id: "mexican-coke", name: "Mexican Coke", price: 4.95 },
-      { id: "mexican-fanta", name: "Mexican Fanta Orange", price: 4.95 },
-      { id: "coca-cola", name: "Coca-Cola", price: 4.5 },
-      { id: "sangria", name: "Sangria", price: 4.95 },
-      { id: "barrilitos", name: "Barrilitos Apple", price: 3.95 },
-      { id: "strawberry-milk", name: "Strawberry Milk", price: 4.25 },
-      { id: "chocolate-milk", name: "Chocolate Milk", price: 4.25 },
-      { id: "bottled-water", name: "Bottled Water", price: 3.95 },
       {
         id: "horchata",
         name: "Horchata",
@@ -282,6 +371,14 @@ export const menu: MenuCategory[] = [
         description: "Rice, cinnamon, vanilla. House-made.",
         popular: true,
       },
+      { id: "mexican-coke", name: "Mexican Coke", price: 4.95 },
+      { id: "mexican-fanta", name: "Mexican Fanta Orange", price: 4.95 },
+      { id: "coca-cola", name: "Coca-Cola", price: 4.5 },
+      { id: "sangria", name: "Sangria", price: 4.95 },
+      { id: "barrilitos", name: "Barrilitos Apple", price: 3.95 },
+      { id: "strawberry-milk", name: "Strawberry Milk", price: 4.25 },
+      { id: "chocolate-milk", name: "Chocolate Milk", price: 4.25 },
+      { id: "bottled-water", name: "Bottled Water", price: 3.95 },
     ],
   },
 ];
@@ -290,22 +387,23 @@ export const popularItems = menu
   .flatMap((c) => c.items.map((i) => ({ ...i, category: c })))
   .filter((i) => i.popular);
 
-export const veganItems = menu
-  .flatMap((c) => c.items)
-  .filter((i) => i.vegan);
+export const veganItems = menu.flatMap((c) => c.items).filter((i) => i.vegan);
+
+export const allItems = menu.flatMap((c) => c.items);
 
 /** Names used by the scrolling marquees. */
 export const tacoNames = [
+  "EL PUR",
+  "EL BACON",
+  "EL CHORIZO",
   "AL PASTOR",
-  "BIRRIA",
-  "CARNITAS",
-  "CARNE ASADA",
+  "QUESABIRRIAS",
+  "CHILAQUILES",
+  "FISH TACOS",
   "VEGAN PASTOR",
-  "LENGUA",
-  "CRAWFISH TOSTADA",
+  "NACHOS",
   "QUESO",
   "MICHELADA",
-  "ELOTE",
-  "HORCHATA",
-  "VOLCANES",
+  "ESQUITES",
+  "FLAN",
 ];

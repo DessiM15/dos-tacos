@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "motion/react";
 import { site } from "@/data/site";
+import { featureImages } from "@/data/images";
 import OrderButton from "@/components/ui/OrderButton";
 
 /** Strung papel picado. Each pennant sways on its own offset. */
@@ -34,16 +36,16 @@ const CARDS = [
   {
     num: "1",
     title: "El Taco",
-    emoji: "🌮",
+    image: featureImages.tacos,
     caption: "El que come uno, come diez.",
     bg: "bg-mango",
     rotate: -7,
   },
   {
     num: "2",
-    title: "La Salsa",
-    emoji: "🌶️",
-    caption: "Pica, pero con cariño.",
+    title: "El Nacho",
+    image: featureImages.sides,
+    caption: "Para compartir. O no.",
     bg: "bg-lime",
     rotate: 6,
   },
@@ -184,10 +186,22 @@ function LoteriaCard({
       } ${className}`}
     >
       <div className={`${card.bg} rounded-lg border-3 border-ink p-3 text-center`}>
-        <p className="text-left font-display text-lg leading-none text-ink/70">
+        <p className="mb-1.5 text-left font-display text-lg leading-none text-ink/70">
           {card.num}
         </p>
-        <p className={small ? "text-5xl" : "text-7xl"}>{card.emoji}</p>
+        <span
+          className={`relative block w-full overflow-hidden rounded-md border-3 border-ink ${
+            small ? "h-20" : "h-28"
+          }`}
+        >
+          <Image
+            src={card.image}
+            alt={card.title}
+            fill
+            sizes="(max-width: 1024px) 144px, 208px"
+            className="object-cover"
+          />
+        </span>
         <p
           className={`mt-1 font-display uppercase leading-none text-ink ${
             small ? "text-lg" : "text-2xl"

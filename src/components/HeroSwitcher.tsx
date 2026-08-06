@@ -14,28 +14,28 @@ const VARIANTS = [
     id: "cannon",
     label: "Taco Cannon",
     hint: "Kinetic type + parallax ingredients",
-    emoji: "💥",
+    swatch: "bg-salsa",
     Component: HeroCannon,
   },
   {
     id: "build",
     label: "Build-A-Taco",
     hint: "Scroll assembles the taco",
-    emoji: "🛠️",
+    swatch: "bg-mango",
     Component: HeroBuild,
   },
   {
     id: "loteria",
     label: "Lotería",
     hint: "Mercado poster + papel picado",
-    emoji: "🎴",
+    swatch: "bg-turquoise",
     Component: HeroLoteria,
   },
   {
     id: "colorblock",
     label: "Color Block",
     hint: "Hover-expanding fiesta panels",
-    emoji: "🟥",
+    swatch: "bg-lime",
     Component: HeroColorBlock,
   },
 ] as const;
@@ -157,9 +157,9 @@ export default function HeroSwitcher() {
                         <span className="absolute left-1.5 top-1 font-display text-[10px] text-cream/40">
                           {i + 1}
                         </span>
-                        <span className="block text-2xl transition-transform group-hover:scale-125">
-                          {v.emoji}
-                        </span>
+                        <span
+                          className={`mx-auto block h-6 w-6 rounded-lg border-2 border-cream/50 transition-transform group-hover:scale-125 ${v.swatch}`}
+                        />
                         <span className="mt-1 block font-display text-xs uppercase leading-tight">
                           {v.label}
                         </span>
@@ -180,7 +180,9 @@ export default function HeroSwitcher() {
                 exit={{ opacity: 0, scale: 0.9 }}
                 className="flex items-center gap-3 rounded-full bg-ink py-2.5 pl-4 pr-3 shadow-[6px_6px_0_var(--color-salsa)] ring-4 ring-cream transition-transform hover:-translate-y-0.5"
               >
-                <span className="text-xl">{active.emoji}</span>
+                <span
+                  className={`h-5 w-5 rounded-md border-2 border-cream/50 ${active.swatch}`}
+                />
                 <span className="text-left">
                   <span className="block font-display text-[10px] uppercase tracking-[0.2em] text-mango">
                     Hero style

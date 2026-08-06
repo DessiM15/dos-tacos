@@ -1,7 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "motion/react";
 import type { MenuItem } from "@/data/menu";
+import { imageFor } from "@/data/images";
+import Icon, { Heat, type IconName } from "@/components/ui/Icon";
 
 const ACCENT_BG = {
   salsa: "bg-salsa text-cream",
@@ -13,31 +16,20 @@ const ACCENT_BG = {
 
 export type Accent = keyof typeof ACCENT_BG;
 
-export function Chili({ level }: { level: 0 | 1 | 2 | 3 }) {
-  if (!level) return null;
-  return (
-    <span
-      className="text-sm"
-      title={`Heat level ${level} of 3`}
-      aria-label={`Heat level ${level} of 3`}
-    >
-      {"🌶️".repeat(level)}
-    </span>
-  );
-}
-
-/** Big illustrated card used for the "best sellers" style grids. */
+/** Big photo card used for the "best sellers" style grids. */
 export default function DishCard({
   item,
   accent,
-  emoji,
+  icon,
   index = 0,
 }: {
   item: MenuItem;
   accent: Accent;
-  emoji: string;
+  icon: IconName;
   index?: number;
 }) {
+  const src = imageFor(item.id);
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 40, rotate: index % 2 ? 2 : -2 }}
@@ -48,21 +40,31 @@ export default function DishCard({
       className="sticker group relative flex flex-col overflow-hidden rounded-3xl bg-cream"
     >
       <div
-        className={`relative grid h-44 place-items-center overflow-hidden ${ACCENT_BG[accent]}`}
+        className={`relative h-48 overflow-hidden border-b-4 border-ink ${ACCENT_BG[accent]}`}
       >
-        <div aria-hidden className="halftone absolute inset-0 text-ink opacity-15" />
-        <span className="relative text-8xl transition-transform duration-300 group-hover:scale-125 group-hover:-rotate-12">
-          {emoji}
-        </span>
+        {src ? (
+          <Image
+            src={src}
+            alt={item.name}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+        ) : (
+          <span className="grid h-full place-items-center">
+            <Icon name={icon} className="h-16 w-16 opacity-60" />
+          </span>
+        )}
 
         {item.popular && (
           <span className="sticker-sm absolute left-3 top-3 rotate-[-8deg] rounded-full bg-mango px-3 py-1 font-display text-xs uppercase text-ink">
-            ⭐ Popular
+            Popular
           </span>
         )}
         {item.vegan && (
-          <span className="sticker-sm absolute right-3 top-3 rotate-[6deg] rounded-full bg-lime px-3 py-1 font-display text-xs uppercase text-ink">
-            🌱 Vegan
+          <span className="sticker-sm absolute right-3 top-3 flex rotate-[6deg] items-center gap-1 rounded-full bg-lime px-3 py-1 font-display text-xs uppercase text-ink">
+            <Icon name="leaf" className="h-3.5 w-3.5" strokeWidth={2.6} />
+            Vegan
           </span>
         )}
       </div>
@@ -82,7 +84,7 @@ export default function DishCard({
         )}
 
         <div className="mt-3 flex items-center gap-2">
-          <Chili level={item.spicy ?? 0} />
+          <Heat level={item.spicy ?? 0} />
           {item.estimated && (
             <span className="ml-auto text-[10px] uppercase tracking-wider text-ink/35">
               price TBC

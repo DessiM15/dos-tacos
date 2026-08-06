@@ -56,14 +56,13 @@ export default function CateringForm() {
         transition={{ type: "spring", stiffness: 220, damping: 18 }}
         className="sticker rounded-3xl bg-lime p-10 text-center"
       >
-        <p className="text-7xl">🎉</p>
         <h3 className="mt-3 font-display text-4xl uppercase leading-none">
           ¡Órale! Email drafted
         </h3>
         <p className="mx-auto mt-3 max-w-md text-ink/75">
           Your mail app should have opened with everything filled in — just hit
           send. If it didn&apos;t, call us at{" "}
-          <a href={site.phoneHref} className="font-bold underline">
+          <a href={site.phoneHref} className="inline-flex min-h-11 items-center font-bold underline">
             {site.phone}
           </a>
           .
@@ -168,12 +167,12 @@ export default function CateringForm() {
         type="submit"
         className="sticker mt-6 w-full rounded-full bg-salsa px-8 py-4 font-display text-2xl uppercase text-cream transition-all duration-150 hover:-translate-y-1 hover:shadow-[9px_9px_0_var(--color-ink)] active:translate-y-1"
       >
-        Send it 🌮
+        Send it
       </button>
 
       <p className="mt-3 text-center text-xs text-ink/50">
         We usually reply same day. Prefer to talk?{" "}
-        <a href={site.phoneHref} className="font-bold underline">
+        <a href={site.phoneHref} className="inline-flex min-h-11 items-center font-bold underline">
           {site.phone}
         </a>
       </p>

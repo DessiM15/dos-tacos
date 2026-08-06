@@ -4,18 +4,28 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { site } from "@/data/site";
+import { heroImage } from "@/data/images";
 import { tacoNames } from "@/data/menu";
 import Marquee from "@/components/ui/Marquee";
+import Produce, { type ProduceName } from "@/components/heroes/Produce";
 import OrderButton from "@/components/ui/OrderButton";
+import { Stars } from "@/components/ui/Icon";
 
 /** Floating ingredients. depth drives how far each drifts from the cursor. */
-const FLOATERS = [
-  { emoji: "🍋", top: "14%", left: "8%", depth: 46, size: "text-6xl sm:text-8xl", delay: 0 },
-  { emoji: "🌿", top: "24%", left: "86%", depth: 62, size: "text-5xl sm:text-7xl", delay: 0.6 },
-  { emoji: "🌶️", top: "66%", left: "12%", depth: 36, size: "text-5xl sm:text-7xl", delay: 1.1 },
-  { emoji: "🧅", top: "74%", left: "82%", depth: 54, size: "text-5xl sm:text-6xl", delay: 0.3 },
-  { emoji: "🌮", top: "8%", left: "62%", depth: 28, size: "text-4xl sm:text-6xl", delay: 1.5 },
-  { emoji: "🥑", top: "82%", left: "48%", depth: 70, size: "text-4xl sm:text-6xl", delay: 0.9 },
+const FLOATERS: {
+  name: ProduceName;
+  top: string;
+  left: string;
+  depth: number;
+  size: string;
+  delay: number;
+}[] = [
+  { name: "lime", top: "14%", left: "7%", depth: 46, size: "h-24 w-24 sm:h-36 sm:w-36", delay: 0 },
+  { name: "cilantro", top: "22%", left: "85%", depth: 62, size: "h-24 w-24 sm:h-32 sm:w-32", delay: 0.6 },
+  { name: "chili", top: "64%", left: "10%", depth: 36, size: "h-24 w-24 sm:h-32 sm:w-32", delay: 1.1 },
+  { name: "onion", top: "72%", left: "82%", depth: 54, size: "h-20 w-20 sm:h-28 sm:w-28", delay: 0.3 },
+  { name: "taco", top: "7%", left: "61%", depth: 28, size: "h-20 w-20 sm:h-28 sm:w-28", delay: 1.5 },
+  { name: "avocado", top: "80%", left: "47%", depth: 70, size: "h-20 w-20 sm:h-24 sm:w-24", delay: 0.9 },
 ];
 
 const HEADLINE = "DOS TACOS";
@@ -48,15 +58,15 @@ export default function HeroCannon() {
       {/* backdrop */}
       <div className="absolute inset-0 -z-20">
         <Image
-          src="/img/taco-1.webp"
+          src={heroImage}
           alt=""
           fill
           priority
           sizes="100vw"
-          className="scale-110 object-cover opacity-45 blur-[2px]"
+          className="scale-110 object-cover opacity-70 blur-[1px]"
         />
       </div>
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink/85 via-ink/55 to-ink/95" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink/75 via-ink/45 to-ink/90" />
       <div
         className="halftone absolute inset-0 -z-10 text-salsa opacity-25"
         aria-hidden
@@ -65,7 +75,7 @@ export default function HeroCannon() {
       {/* floating ingredients */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-[5]">
         {FLOATERS.map((f) => (
-          <Floater key={f.emoji} {...f} sx={sx} sy={sy} />
+          <Floater key={f.name} {...f} sx={sx} sy={sy} />
         ))}
       </div>
 
@@ -122,7 +132,7 @@ export default function HeroCannon() {
           transition={{ delay: 0.95 }}
           className="mt-8 flex flex-wrap items-center justify-center gap-3"
         >
-          <OrderButton size="lg">Order Now 🌮</OrderButton>
+          <OrderButton size="lg">Order Now</OrderButton>
           <a
             href="/menu"
             className="sticker inline-flex items-center gap-2 rounded-full bg-mango px-8 py-4 font-display text-2xl uppercase tracking-wide text-ink transition-all duration-150 hover:-translate-y-1 hover:shadow-[9px_9px_0_var(--color-ink)] active:translate-y-1 sm:text-3xl"
@@ -137,8 +147,9 @@ export default function HeroCannon() {
           transition={{ delay: 1.15, type: "spring", stiffness: 200 }}
           className="mt-8 inline-flex flex-wrap items-center justify-center gap-x-4 gap-y-1 rounded-full border-3 border-cream/30 bg-cream/10 px-5 py-2 backdrop-blur-sm"
         >
-          <span className="font-display text-2xl text-mango">
-            {site.rating}★
+          <span className="flex items-center gap-1 font-display text-2xl text-mango">
+            {site.rating}
+            <Stars count={1} className="h-5 w-5" />
           </span>
           <span className="text-sm text-cream/80">
             {site.reviewCount.toLocaleString()} Google reviews
@@ -158,7 +169,7 @@ export default function HeroCannon() {
 }
 
 function Floater({
-  emoji,
+  name,
   top,
   left,
   depth,
@@ -179,13 +190,13 @@ function Floater({
       initial={{ opacity: 0, scale: 0.4 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.5 + delay, type: "spring", stiffness: 160 }}
-      className={`absolute ${size} drop-shadow-lg`}
+      className="absolute drop-shadow-[4px_6px_0_rgba(0,0,0,0.35)]"
     >
       <span
         className="block animate-bob"
         style={{ animationDelay: `${delay}s` }}
       >
-        {emoji}
+        <Produce name={name} className={size} />
       </span>
     </motion.span>
   );

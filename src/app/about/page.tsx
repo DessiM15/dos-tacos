@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
 import OrderButton from "@/components/ui/OrderButton";
 import { site } from "@/data/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Our Story",
-  description: `How ${site.name} became ${site.city}'s favorite taquería.`,
-};
+  description:
+    "How Dos Tacos became Katy's favorite taqueria — daily salsa, a real vegan menu, and free samples for first-timers.",
+  path: "/about",
+  image: "/img/store-front.jpg",
+});
 
 /**
  * PLACEHOLDER COPY — the story beats below are written from the Google reviews
@@ -20,28 +24,24 @@ const CHAPTERS = [
     title: "It started with a comal",
     body: "No consultants, no focus groups. Just a griddle, a family recipe for adobo, and the stubborn belief that a $3 taco should taste like somebody cared.",
     bg: "bg-mango",
-    emoji: "🔥",
   },
   {
     num: "02",
     title: "We made the vegan menu real",
     body: "Most places bolt on a sad veggie option. We built a whole second kitchen's worth — vegan pastor, vegan egg tacos, a four-taco sampler. People drive across Katy for it.",
     bg: "bg-lime",
-    emoji: "🌱",
   },
   {
     num: "03",
     title: "First time? Here, try this.",
     body: "If you've never been in, somebody is going to hand you a free sample before you've even ordered. It's in the reviews more than almost anything else. That's on purpose.",
     bg: "bg-turquoise",
-    emoji: "🎁",
   },
   {
     num: "04",
     title: "1,020 reviews later",
     body: `${site.rating} stars and counting. We still open at 8 AM, we still make the salsa every morning, and we still get nervous when a table goes quiet.`,
     bg: "bg-guava",
-    emoji: "⭐",
   },
 ];
 
@@ -87,12 +87,9 @@ export default function AboutPage() {
               className={`sticker flex flex-col gap-4 rounded-3xl p-6 sm:flex-row sm:items-start sm:p-8 ${c.bg} text-ink`}
               style={{ rotate: i % 2 ? "0.8deg" : "-0.8deg" }}
             >
-              <div className="flex shrink-0 items-center gap-4 sm:flex-col sm:gap-2">
-                <span className="text-6xl">{c.emoji}</span>
-                <span className="font-display text-4xl leading-none opacity-40">
-                  {c.num}
-                </span>
-              </div>
+              <span className="grid h-16 w-16 shrink-0 place-items-center rounded-full border-4 border-ink font-display text-3xl leading-none">
+                {c.num}
+              </span>
               <div>
                 <h3 className="font-display text-3xl uppercase leading-none sm:text-4xl">
                   {c.title}
@@ -144,7 +141,7 @@ export default function AboutPage() {
 
           <div className="mt-12 text-center">
             <OrderButton size="lg" variant="mango">
-              Try it yourself 🌮
+              Try it yourself
             </OrderButton>
           </div>
         </div>

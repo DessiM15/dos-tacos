@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
 import ReviewCard from "@/components/ui/ReviewCard";
 import OrderButton from "@/components/ui/OrderButton";
 import SectionHeading from "@/components/ui/SectionHeading";
+import { Stars } from "@/components/ui/Icon";
 import { site, reviews, reviewSummary } from "@/data/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Reviews",
-  description: `${site.rating} stars from ${site.reviewCount.toLocaleString()} Google reviews in ${site.city}.`,
-};
+  description:
+    "4.9 stars from 1,020 Google reviews. Read what Katy says about Dos Tacos' street tacos, quesabirrias and vegan menu.",
+  path: "/reviews",
+  image: "/img/real/chilaquiles.jpg",
+});
 
 const RATING_BARS = [
   { stars: 5, pct: 94 },
@@ -35,7 +40,9 @@ export default function ReviewsPage() {
             <p className="font-display text-8xl leading-none text-mango">
               {site.rating}
             </p>
-            <p className="mt-1 text-2xl tracking-widest text-mango">★★★★★</p>
+            <p className="mt-1 flex justify-center text-mango">
+              <Stars count={5} className="h-6 w-6" />
+            </p>
             <p className="mt-2 text-sm text-cream/60">
               {site.reviewCount.toLocaleString()} Google reviews
             </p>
@@ -44,8 +51,9 @@ export default function ReviewsPage() {
           <div className="flex flex-col justify-center gap-2">
             {RATING_BARS.map((r) => (
               <div key={r.stars} className="flex items-center gap-3">
-                <span className="w-10 shrink-0 text-sm text-cream/70">
-                  {r.stars} ★
+                <span className="flex w-12 shrink-0 items-center gap-1 text-sm text-cream/70">
+                  {r.stars}
+                  <Stars count={1} className="h-3.5 w-3.5" />
                 </span>
                 <div className="h-4 flex-1 overflow-hidden rounded-full border-2 border-cream/25 bg-cream/5">
                   <div
@@ -93,7 +101,7 @@ export default function ReviewsPage() {
           <p className="mb-6 font-display text-4xl uppercase leading-none sm:text-5xl">
             Come make it 1,021
           </p>
-          <OrderButton size="lg">Order Now 🌮</OrderButton>
+          <OrderButton size="lg">Order Now</OrderButton>
         </div>
       </section>
     </>

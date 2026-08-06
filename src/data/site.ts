@@ -39,9 +39,14 @@ export const site = {
   mapsEmbedUrl:
     "https://www.google.com/maps?q=10610+Gaston+Rd+Ste+130,+Katy,+TX+77494&output=embed",
 
-  /** NEEDS-CONFIRM: swap in the real ordering links. */
   order: {
-    uberEats: "https://www.ubereats.com/",
+    /** Toast — in-house online ordering, best margin for the shop. */
+    toast: "https://toast.app/r/dos-tacos-26224-hunter-lane/order",
+    uberEats:
+      "https://www.ubereats.com/store/dos-tacos/tXv3Y9FAXGKmxgWcaLvqJA",
+    grubhub:
+      "https://www.grubhub.com/restaurant/dos-tacos-10610-gaston-rd-katy/8300152",
+    // NEEDS-CONFIRM: real DoorDash store link still needed.
     doorDash: "https://www.doordash.com/",
   },
 
@@ -57,12 +62,15 @@ export const site = {
   ],
 
   socials: [
-    { label: "Instagram", href: "https://instagram.com/" },
-    { label: "Facebook", href: "https://facebook.com/" },
-    { label: "TikTok", href: "https://tiktok.com/" },
+    { label: "Instagram", href: "https://www.instagram.com/dostacosktx" },
+    {
+      label: "Facebook",
+      href: "https://www.facebook.com/profile.php?id=61559715592416",
+    },
   ],
 
   perks: [
+    "Online ordering",
     "Vegan options",
     "Kids' menu",
     "Beer & margaritas",

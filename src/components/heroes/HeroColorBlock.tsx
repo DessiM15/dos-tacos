@@ -2,37 +2,40 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { site } from "@/data/site";
+import { featureImages } from "@/data/images";
 import OrderButton from "@/components/ui/OrderButton";
+import { Stars } from "@/components/ui/Icon";
 
 const PANELS = [
   {
     id: "tacos",
     word: "Tacos",
-    sub: "Al pastor · Birria · Carnitas · Asada",
-    emoji: "🌮",
+    sub: "El Pur · El Bacon · El Chorizo · Al Pastor",
+    image: featureImages.tacos,
     bg: "bg-salsa",
     text: "text-cream",
     href: "/menu#street-tacos",
   },
   {
-    id: "vegan",
-    word: "Vegano",
-    sub: "Vegan pastor · Egg & potato · Sampler",
-    emoji: "🌱",
+    id: "breakfast",
+    word: "Desayuno",
+    sub: "Egg & birria · Egg & pastor · Chilaquiles",
+    image: featureImages.breakfast,
     bg: "bg-lime",
     text: "text-ink",
-    href: "/menu#vegan",
+    href: "/menu#breakfast",
   },
   {
-    id: "drinks",
-    word: "Bebidas",
-    sub: "Micheladas · Margaritas · Horchata",
-    emoji: "🍹",
+    id: "sides",
+    word: "Antojitos",
+    sub: "Nachos · Queso · Guacamole · Esquites",
+    image: featureImages.sides,
     bg: "bg-mango",
     text: "text-ink",
-    href: "/menu#drinks",
+    href: "/menu#sides",
   },
 ];
 
@@ -67,18 +70,23 @@ export default function HeroColorBlock() {
                   className="halftone absolute inset-0 opacity-15 text-ink"
                 />
 
-                {/* oversize watermark emoji */}
+                {/* photo washes in behind the type on hover */}
                 <motion.span
                   aria-hidden
                   animate={{
-                    scale: isActive ? 1.25 : 1,
-                    rotate: isActive ? 8 : -6,
-                    opacity: isActive ? 0.35 : 0.18,
+                    scale: isActive ? 1.05 : 1.16,
+                    opacity: isActive ? 0.85 : 0.5,
                   }}
-                  transition={{ type: "spring", stiffness: 160, damping: 18 }}
-                  className="pointer-events-none absolute text-[42vh] leading-none"
+                  transition={{ type: "spring", stiffness: 140, damping: 20 }}
+                  className="pointer-events-none absolute inset-0"
                 >
-                  {p.emoji}
+                  <Image
+                    src={p.image}
+                    alt=""
+                    fill
+                    sizes="(max-width: 768px) 100vw, 40vw"
+                    className="object-cover mix-blend-multiply saturate-125"
+                  />
                 </motion.span>
 
                 <motion.h2
@@ -122,15 +130,16 @@ export default function HeroColorBlock() {
 
           <div className="flex flex-col items-center gap-3 sm:flex-row">
             <div className="text-center sm:text-right">
-              <p className="font-display text-3xl leading-none text-mango">
-                {site.rating}★
+              <p className="flex items-center justify-center gap-1 font-display text-3xl leading-none text-mango sm:justify-end">
+                {site.rating}
+                <Stars count={1} className="h-6 w-6" />
               </p>
               <p className="text-xs text-cream/70">
                 {site.reviewCount.toLocaleString()} reviews · {site.city}
               </p>
             </div>
             <OrderButton size="lg" variant="cream">
-              Order Now 🌮
+              Order Now
             </OrderButton>
           </div>
         </div>
