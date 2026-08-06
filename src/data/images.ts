@@ -6,7 +6,7 @@
  * no photo fall back to a coloured tile + icon, which reads as intentional.
  *
  * Still needs a photo: al pastor, carnitas, crawfish tostada, soup du jour,
- * every vegan item, and the drinks.
+ * every vegan item, and the non-alcoholic drinks.
  */
 
 const R = (name: string) => `/img/real/${name}.jpg`;
@@ -37,6 +37,9 @@ const BY_ITEM: Record<string, string> = {
   nachos: R("nachos"),
   corn: R("corn"),
 
+  // drinks
+  margarita: R("marg"),
+
   // sweets
   flan: R("flan"),
   "arroz-con-leche": R("arroz-con-leche"),
@@ -54,6 +57,7 @@ export const featureImages = {
   tacos: R("el-pur"),
   breakfast: R("egg-birria"),
   sides: R("nachos"),
+  drinks: R("marg"),
   sweets: R("flan"),
   spread: R("chilaquiles"),
 } as const;
@@ -68,4 +72,8 @@ export const galleryImages = [
   { src: R("guac-chips"), alt: "Fresh guacamole with tortilla chips" },
   { src: R("fish-tacos"), alt: "Fish taco topped with pico de gallo" },
   { src: R("flan"), alt: "Slice of house-made flan" },
+  {
+    src: R("marg"),
+    alt: "Chile-rimmed margarita with sangrita and a Jarritos on the side",
+  },
 ];

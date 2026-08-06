@@ -16,7 +16,8 @@ const PANELS = [
     sub: "El Pur · El Bacon · El Chorizo · Al Pastor",
     image: featureImages.tacos,
     bg: "bg-salsa",
-    text: "text-cream",
+    text: "text-ink",
+    scrim: "via-cream/45",
     href: "/menu#street-tacos",
   },
   {
@@ -25,17 +26,19 @@ const PANELS = [
     sub: "Egg & birria · Egg & pastor · Chilaquiles",
     image: featureImages.breakfast,
     bg: "bg-lime",
-    text: "text-ink",
+    text: "text-cream",
+    scrim: "via-ink/50",
     href: "/menu#breakfast",
   },
   {
-    id: "sides",
-    word: "Antojitos",
-    sub: "Nachos · Queso · Guacamole · Esquites",
-    image: featureImages.sides,
+    id: "drinks",
+    word: "Bebidas",
+    sub: "Micheladas · Margaritas · Horchata · Jarritos",
+    image: featureImages.drinks,
     bg: "bg-mango",
     text: "text-ink",
-    href: "/menu#sides",
+    scrim: "via-cream/45",
+    href: "/menu#drinks",
   },
 ];
 
@@ -89,6 +92,11 @@ export default function HeroColorBlock() {
                   />
                 </motion.span>
 
+                <span
+                  aria-hidden
+                  className={`pointer-events-none absolute inset-x-0 top-1/2 h-64 -translate-y-1/2 bg-gradient-to-b from-transparent to-transparent ${p.scrim}`}
+                />
+
                 <motion.h2
                   animate={{ scale: isActive ? 1.08 : 1 }}
                   className="relative font-display text-[13vw] uppercase leading-[0.82] tracking-tight md:text-[7vw]"
@@ -98,7 +106,7 @@ export default function HeroColorBlock() {
 
                 <motion.p
                   animate={{
-                    opacity: isActive ? 1 : 0.75,
+                    opacity: isActive ? 1 : 0.92,
                     y: isActive ? 0 : 6,
                   }}
                   className="relative mt-2 max-w-xs text-center text-sm font-semibold sm:text-base"
