@@ -85,6 +85,34 @@ The catering form has **no backend** — it composes a pre-filled email via `mai
 
 ---
 
+## Presentation mode  ⚠️ read this first
+
+`PHOTOS_ONLY` in `src/data/menu.ts` is currently **`true`**.
+
+While photography is incomplete the site only renders dishes that have a real
+photo — a menu mixing photos with placeholder tiles reads as unfinished, and
+this build is being shown to the owners. Categories left empty are dropped
+automatically, and menu filters that would return nothing hide themselves.
+
+**Currently showing 20 of 39 items.** Hidden: al pastor, carnitas, crawfish
+tostada, soup du jour, salsa, the entire vegan category, and every drink except
+the margarita.
+
+```ts
+// src/data/menu.ts
+export const PHOTOS_ONLY = false;   // <- flip this when the photos land
+```
+
+Flip it and the full menu comes back everywhere at once — menu page, home page
+best sellers, marquees, and the `schema.org/Menu` structured data all derive
+from the same filtered list. Nothing else needs editing.
+
+The vegan section on the home page is deliberately kept as a story panel with
+no item cards, because the Google reviews single that menu out — it sells the
+vegan offering without showing an unphotographed dish.
+
+---
+
 ## Photography
 
 All dish photos in `/public/img/real/` are the restaurant's own, shot on the branded pink wrapper. No stock imagery is used anywhere, deliberately — mixing stock in would break that consistency. Items without a photo fall back to a coloured tile with an icon.

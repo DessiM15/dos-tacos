@@ -1,4 +1,5 @@
 import type { IconName } from "@/components/ui/Icon";
+import { imageFor } from "@/data/images";
 
 /**
  * The menu.
@@ -319,7 +320,7 @@ export const menu: MenuCategory[] = [
     spanish: "Postres",
     blurb: "Save room. Or don't, and come back tomorrow.",
     icon: "gift",
-    accent: "guava",
+    accent: "lime",
     items: [
       {
         id: "flan",
@@ -383,27 +384,42 @@ export const menu: MenuCategory[] = [
   },
 ];
 
-export const popularItems = menu
+/**
+ * PRESENTATION MODE.
+ *
+ * While photography is incomplete, the site only shows dishes we have a real
+ * photo for — a menu of mixed photos and placeholder tiles reads as unfinished.
+ * Categories that end up empty are dropped entirely.
+ *
+ * Flip this to `false` once the remaining photos land and the full menu below
+ * comes back automatically. Nothing else needs to change.
+ */
+export const PHOTOS_ONLY = true;
+
+/** What the site actually renders. Everything downstream derives from this. */
+export const visibleMenu: MenuCategory[] = PHOTOS_ONLY
+  ? menu
+      .map((c) => ({ ...c, items: c.items.filter((i) => imageFor(i.id)) }))
+      .filter((c) => c.items.length > 0)
+  : menu;
+
+/** Items hidden by presentation mode — surfaced in the README/handoff. */
+export const hiddenItemCount =
+  menu.reduce((n, c) => n + c.items.length, 0) -
+  visibleMenu.reduce((n, c) => n + c.items.length, 0);
+
+export const popularItems = visibleMenu
   .flatMap((c) => c.items.map((i) => ({ ...i, category: c })))
   .filter((i) => i.popular);
 
-export const veganItems = menu.flatMap((c) => c.items).filter((i) => i.vegan);
+export const veganItems = visibleMenu
+  .flatMap((c) => c.items)
+  .filter((i) => i.vegan);
 
-export const allItems = menu.flatMap((c) => c.items);
+export const allItems = visibleMenu.flatMap((c) => c.items);
 
-/** Names used by the scrolling marquees. */
-export const tacoNames = [
-  "EL PUR",
-  "EL BACON",
-  "EL CHORIZO",
-  "AL PASTOR",
-  "QUESABIRRIAS",
-  "CHILAQUILES",
-  "FISH TACOS",
-  "VEGAN PASTOR",
-  "NACHOS",
-  "QUESO",
-  "MICHELADA",
-  "ESQUITES",
-  "FLAN",
-];
+/** Marquee copy, built from what is actually on the page. */
+export const tacoNames = visibleMenu
+  .flatMap((c) => c.items)
+  .filter((i) => i.popular)
+  .map((i) => i.name.toUpperCase());

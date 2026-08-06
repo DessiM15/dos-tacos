@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { site } from "@/data/site";
-import { menu } from "@/data/menu";
+import { visibleMenu as menu } from "@/data/menu";
 
 /**
  * Canonical origin. Set NEXT_PUBLIC_SITE_URL in the host (Vercel → Settings →

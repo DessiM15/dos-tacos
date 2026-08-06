@@ -25,7 +25,7 @@ export default function MenuPage() {
       <PageHero
         kicker="El Menú"
         title="Everything We Make"
-        blurb="Street tacos, house specialties, a vegan menu people actually drive for, and drinks that are colder than they need to be."
+        blurb="Street tacos off the flat top, breakfast from 8 AM, quesabirrias with consomé, and everything worth sharing."
         accent="salsa"
         ticker={tacoNames}
       />

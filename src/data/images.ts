@@ -62,7 +62,7 @@ export const featureImages = {
   spread: R("chilaquiles"),
 } as const;
 
-/** Photos good enough to run in a gallery strip. */
+/** Gallery strip. Keep the count divisible by 4 so no row is orphaned. */
 export const galleryImages = [
   { src: R("el-pur"), alt: "El Pur taco with melted cheese on a Dos Tacos tray" },
   { src: R("quesabirrias"), alt: "Quesabirrias with consomé for dipping" },
@@ -76,4 +76,7 @@ export const galleryImages = [
     src: R("marg"),
     alt: "Chile-rimmed margarita with sangrita and a Jarritos on the side",
   },
+  { src: R("bowl"), alt: "Taco bowl with rice, beans, avocado and crema" },
+  { src: R("queso-chips"), alt: "Warm queso with fresh tortilla chips" },
+  { src: R("corn"), alt: "Esquites — grilled corn with crema, cotija and chile" },
 ];

@@ -7,7 +7,7 @@ import ReviewCard from "@/components/ui/ReviewCard";
 import Marquee from "@/components/ui/Marquee";
 import OrderButton from "@/components/ui/OrderButton";
 import { Stars } from "@/components/ui/Icon";
-import { menu, popularItems, veganItems, tacoNames } from "@/data/menu";
+import { popularItems, tacoNames } from "@/data/menu";
 import { galleryImages, storeFront } from "@/data/images";
 import Icon from "@/components/ui/Icon";
 import { site, reviews } from "@/data/site";
@@ -21,7 +21,6 @@ const STATS = [
 
 export default function Home() {
   const bestSellers = popularItems.slice(0, 6);
-  const veganCategory = menu.find((c) => c.id === "vegan")!;
 
   return (
     <>
@@ -89,64 +88,47 @@ export default function Home() {
         className="border-y-4 border-ink bg-mango py-3 font-display text-2xl uppercase text-ink sm:text-3xl"
       />
 
-      {/* ---------- vegan spotlight ---------- */}
+      {/* ---------- vegan spotlight ----------
+           Deliberately no item cards: there is no vegan photography yet, and
+           placeholder tiles would undercut the rest of the page. The section
+           still earns its place because the reviews single the vegan menu out. */}
       <section className="relative overflow-hidden bg-lime">
         <div aria-hidden className="halftone absolute inset-0 text-ink opacity-15" />
-        <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2">
-          <div>
-            <SectionHeading
-              align="left"
-              accent="ink"
-              kicker="No, seriously"
-              title={
-                <>
-                  The vegan
-                  <br />
-                  menu <span className="text-salsa">slaps</span>
-                </>
-              }
-              blurb={veganCategory.blurb}
-            />
-            <p className="mt-4 max-w-md rounded-2xl border-3 border-ink bg-cream/70 p-4 font-fun text-lg leading-snug">
+        <div className="relative mx-auto max-w-4xl px-4 py-20 text-center sm:px-6">
+          <SectionHeading
+            accent="ink"
+            kicker="No, seriously"
+            title={
+              <>
+                The vegan menu{" "}
+                <span className="text-salsa">slaps</span>
+              </>
+            }
+            blurb="Vegan pastor, vegan egg and potato, and a four-taco sampler — built properly, not bolted on."
+          />
+
+          <figure className="sticker mx-auto mt-8 max-w-2xl rounded-3xl bg-cream p-6">
+            <Icon name="leaf" className="mx-auto h-9 w-9 text-lime" />
+            <blockquote className="mt-3 font-display text-2xl uppercase leading-tight sm:text-3xl">
               &ldquo;Best vegan tacos in Katy, hands down. The vegan pastor
               actually tastes like pastor.&rdquo;
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <OrderButton size="md" variant="ink">
-                Order Vegan
-              </OrderButton>
-              <Link
-                href="/menu#vegan"
-                className="sticker inline-flex items-center rounded-full bg-cream px-6 py-3 font-display text-xl uppercase transition-transform hover:-translate-y-1"
-              >
-                All {veganItems.length} vegan items
-              </Link>
-            </div>
-          </div>
+            </blockquote>
+            <figcaption className="mt-3 text-xs font-semibold uppercase tracking-[0.2em] text-ink/55">
+              — Google review
+            </figcaption>
+          </figure>
 
-          <ul className="grid gap-3">
-            {veganCategory.items.map((item) => (
-              <li
-                key={item.id}
-                className="sticker-sm flex items-center gap-3 rounded-2xl bg-cream px-4 py-3"
-              >
-                <Icon name="leaf" className="h-6 w-6 shrink-0 text-lime" />
-                <span className="flex-1">
-                  <span className="block font-display text-xl uppercase leading-none">
-                    {item.name}
-                  </span>
-                  {item.description && (
-                    <span className="block text-sm text-ink/65">
-                      {item.description}
-                    </span>
-                  )}
-                </span>
-                <span className="font-display text-xl tabular-nums">
-                  ${item.price.toFixed(2)}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <OrderButton size="lg" variant="ink">
+              Order Vegan
+            </OrderButton>
+            <Link
+              href="/menu"
+              className="sticker inline-flex items-center rounded-full bg-cream px-8 py-4 font-display text-2xl uppercase transition-transform hover:-translate-y-1"
+            >
+              See the Menu
+            </Link>
+          </div>
         </div>
       </section>
 

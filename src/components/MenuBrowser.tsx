@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { menu } from "@/data/menu";
+import { visibleMenu as menu, type MenuItem } from "@/data/menu";
 import { imageFor } from "@/data/images";
 import Icon, { Heat } from "@/components/ui/Icon";
 import OrderButton from "@/components/ui/OrderButton";
@@ -18,12 +18,22 @@ const ACCENT_BG = {
 
 type Filter = "all" | "popular" | "vegan" | "spicy";
 
-const FILTERS: { id: Filter; label: string }[] = [
-  { id: "all", label: "Everything" },
-  { id: "popular", label: "Popular" },
-  { id: "vegan", label: "Vegan" },
-  { id: "spicy", label: "Spicy" },
+const ALL_FILTERS: {
+  id: Filter;
+  label: string;
+  match: (i: MenuItem) => boolean;
+}[] = [
+  { id: "all", label: "Everything", match: () => true },
+  { id: "popular", label: "Popular", match: (i) => !!i.popular },
+  { id: "vegan", label: "Vegan", match: (i) => !!i.vegan },
+  { id: "spicy", label: "Spicy", match: (i) => !!i.spicy && i.spicy > 0 },
 ];
+
+/** Only offer a filter that would actually return something. */
+const items = menu.flatMap((c) => c.items);
+const FILTERS = ALL_FILTERS.filter(
+  (f) => f.id === "all" || items.some(f.match),
+);
 
 export default function MenuBrowser() {
   const [filter, setFilter] = useState<Filter>("all");
@@ -90,7 +100,7 @@ export default function MenuBrowser() {
               />
             </label>
             <span className="hidden shrink-0 font-display text-sm uppercase text-ink/50 sm:block">
-              {total} items
+              {total} {total === 1 ? "item" : "items"}
             </span>
           </div>
         </div>
@@ -152,7 +162,8 @@ export default function MenuBrowser() {
                   <p className="mt-1 max-w-xl text-sm opacity-90">{cat.blurb}</p>
                 </div>
                 <span className="rounded-full bg-ink/20 px-3 py-1 font-display text-sm uppercase">
-                  {cat.items.length} items
+                  {cat.items.length}{" "}
+                  {cat.items.length === 1 ? "item" : "items"}
                 </span>
               </div>
 
