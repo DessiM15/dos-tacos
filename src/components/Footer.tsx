@@ -130,6 +130,21 @@ export default function Footer() {
             </Link>
           </nav>
         </div>
+
+        <div className="border-t border-cream/10">
+          <p className="mx-auto max-w-7xl px-4 py-4 text-center text-sm text-cream/50 sm:px-6">
+            Website by{" "}
+            <a
+              href="https://smartscaleagent.com/"
+              target="_blank"
+              rel="noopener"
+              className="underline decoration-cream/30 underline-offset-4 transition-colors hover:text-mango hover:decoration-mango"
+            >
+              Smart Scale
+            </a>
+            , LLC
+          </p>
+        </div>
       </div>
     </footer>
   );
